@@ -88,6 +88,48 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
     today = date.today()
     month_name = today.strftime("%B %Y")
 
+    # --- Upcoming bills (sorted by date, soonest first) ---
+    upcoming_bills_html = ""
+    subs_with_renewal = [
+        s for s in active_subs
+        if s["next_renewal"] and s["monthly_cost_gbp"] > 0
+    ]
+    subs_with_renewal.sort(key=lambda s: s["next_renewal"])
+
+    for s in subs_with_renewal:
+        try:
+            renewal_date = datetime.strptime(s["next_renewal"], "%Y-%m-%d").date() if isinstance(s["next_renewal"], str) else s["next_renewal"]
+            days_left = (renewal_date - today).days
+            if days_left < 0:
+                time_str = "Overdue"
+                urgency = "overdue"
+            elif days_left == 0:
+                time_str = "Due today"
+                urgency = "overdue"
+            elif days_left == 1:
+                time_str = "Due tomorrow"
+                urgency = "urgent"
+            elif days_left <= 7:
+                time_str = f"Due in {days_left} days"
+                urgency = "urgent"
+            else:
+                time_str = f"Due in {days_left} days"
+                urgency = "normal"
+
+            renewal_display = renewal_date.strftime("%d %b")
+            upcoming_bills_html += f"""
+                <div class="bill-card {urgency}">
+                    <div class="bill-name">{s['name']}</div>
+                    <div class="bill-cost">&pound;{s['monthly_cost_gbp']:.2f}</div>
+                    <div class="bill-date">{renewal_display}</div>
+                    <div class="bill-countdown">{time_str}</div>
+                </div>"""
+        except (ValueError, TypeError):
+            pass
+
+    if not upcoming_bills_html:
+        upcoming_bills_html = '<p class="muted">No renewal dates set. Add &ldquo;Next Renewal&rdquo; dates to your subscriptions in Notion.</p>'
+
     project_labels = json.dumps(list(project_spend.keys()))
     project_values = json.dumps([round(v, 2) for v in project_spend.values()])
 
@@ -394,6 +436,119 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
 
         .muted {{ color: #64748b; font-style: italic; }}
 
+        /* Upcoming Bills */
+        .bills-section {{
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #334155;
+            margin-bottom: 32px;
+        }}
+        .bills-section h2 {{
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }}
+        .bill-cards {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }}
+        .bill-card {{
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }}
+        .bill-card.urgent {{
+            border-color: #f97316;
+        }}
+        .bill-card.overdue {{
+            border-color: #ef4444;
+        }}
+        .bill-name {{
+            font-size: 14px;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 4px;
+        }}
+        .bill-cost {{
+            font-size: 22px;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 6px;
+        }}
+        .bill-date {{
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }}
+        .bill-countdown {{
+            font-size: 13px;
+            font-weight: 600;
+            color: #22c55e;
+        }}
+        .bill-card.urgent .bill-countdown {{
+            color: #f97316;
+        }}
+        .bill-card.overdue .bill-countdown {{
+            color: #ef4444;
+        }}
+
+        /* Manual Checks */
+        .manual-checks-section {{
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid #334155;
+            margin-bottom: 32px;
+        }}
+        .manual-checks-section h2 {{
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }}
+        .manual-checks-intro {{
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }}
+        .check-cards {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }}
+        .check-card {{
+            display: block;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 16px 18px;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, background 0.2s;
+        }}
+        .check-card:hover {{
+            border-color: #6366f1;
+            background: #1a2541;
+        }}
+        .check-name {{
+            font-size: 15px;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 4px;
+        }}
+        .check-action {{
+            font-size: 13px;
+            color: #818cf8;
+            margin-bottom: 6px;
+        }}
+        .check-hint {{
+            font-size: 11px;
+            color: #64748b;
+        }}
+
         @media (max-width: 768px) {{
             .charts {{ grid-template-columns: 1fr; }}
             .cards {{ grid-template-columns: 1fr 1fr; }}
@@ -428,6 +583,14 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
         </div>
     </div>
 
+    <!-- Upcoming Bills -->
+    <div class="bills-section">
+        <h2>Upcoming Bills</h2>
+        <div class="bill-cards">
+            {upcoming_bills_html}
+        </div>
+    </div>
+
     <!-- Charts -->
     <div class="charts">
         <div class="chart-card">
@@ -448,6 +611,34 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
     <div class="progress-section">
         <h2>Credit Usage</h2>
         {progress_bars}
+    </div>
+
+    <!-- Manual Checks -->
+    <div class="manual-checks-section">
+        <h2>Manual Checks</h2>
+        <p class="manual-checks-intro">These services can't be auto-tracked. Check your balance periodically and update the numbers in Notion.</p>
+        <div class="check-cards">
+            <a href="https://console.anthropic.com/settings/billing" target="_blank" class="check-card">
+                <div class="check-name">Claude API</div>
+                <div class="check-action">Check remaining credit balance</div>
+                <div class="check-hint">Update &ldquo;Credits Used&rdquo; on the Claude API row in Notion</div>
+            </a>
+            <a href="https://www.perplexity.ai/settings/api" target="_blank" class="check-card">
+                <div class="check-name">Perplexity</div>
+                <div class="check-action">Check remaining credit balance</div>
+                <div class="check-hint">Update &ldquo;Credits Used&rdquo; on the Perplexity row in Notion</div>
+            </a>
+            <a href="https://console.cloud.google.com/billing" target="_blank" class="check-card">
+                <div class="check-name">Google Cloud (sbmdjordan)</div>
+                <div class="check-action">Check accruing charges</div>
+                <div class="check-hint">Log in with sbmdjordan &middot; Update &ldquo;Usage GBP&rdquo; in Notion</div>
+            </a>
+            <a href="https://console.cloud.google.com/billing" target="_blank" class="check-card">
+                <div class="check-name">Google Cloud (Oasi)</div>
+                <div class="check-action">Check remaining free credits</div>
+                <div class="check-hint">Log in with jjohnson@stayoasi &middot; &pound;218 trial expires May 7</div>
+            </a>
+        </div>
     </div>
 
     <!-- Project Cost Breakdown -->
