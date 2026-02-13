@@ -248,59 +248,6 @@
             color: #ef4444;
         }
 
-        /* Manual Checks */
-        .manual-checks-section {
-            background: #1e293b;
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid #334155;
-            margin-bottom: 32px;
-        }
-        .manual-checks-section h2 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .manual-checks-intro {
-            color: #94a3b8;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-        .check-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
-        }
-        .check-card {
-            display: block;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 16px 18px;
-            text-decoration: none;
-            color: inherit;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .check-card:hover {
-            border-color: #6366f1;
-            background: #1a2541;
-        }
-        .check-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #f8fafc;
-            margin-bottom: 4px;
-        }
-        .check-action {
-            font-size: 13px;
-            color: #818cf8;
-            margin-bottom: 6px;
-        }
-        .check-hint {
-            font-size: 11px;
-            color: #64748b;
-        }
-
         @media (max-width: 768px) {
             .charts { grid-template-columns: 1fr; }
             .cards { grid-template-columns: 1fr 1fr; }
@@ -311,7 +258,7 @@
 </head>
 <body>
     <h1>Cost Tracker</h1>
-    <p class="subtitle">Updated 13 Feb 2026 at 22:19 &middot; February 2026</p>
+    <p class="subtitle">Updated 13 Feb 2026 at 22:39 &middot; February 2026</p>
 
     <!-- Summary Cards -->
     <div class="cards">
@@ -422,38 +369,6 @@
             </div>
     </div>
 
-    <!-- Manual Checks -->
-    <div class="manual-checks-section">
-        <h2>Manual Checks</h2>
-        <p class="manual-checks-intro">These services can't be auto-tracked. Check your balance periodically and update the numbers in Notion.</p>
-        <div class="check-cards">
-            <a href="https://console.anthropic.com/settings/billing" target="_blank" class="check-card">
-                <div class="check-name">Claude API</div>
-                <div class="check-action">Check remaining credit balance</div>
-                <div class="check-hint">Update &ldquo;Credits Remaining&rdquo; on the Claude API row in Notion</div>
-            </a>
-            <a href="https://www.perplexity.ai/settings/api" target="_blank" class="check-card">
-                <div class="check-name">Perplexity</div>
-                <div class="check-action">Check remaining credit balance</div>
-                <div class="check-hint">Update &ldquo;Credits Remaining&rdquo; on the Perplexity row in Notion</div>
-            </a>
-            <a href="https://console.cloud.google.com/billing" target="_blank" class="check-card">
-                <div class="check-name">Google Cloud (sbmdjordan)</div>
-                <div class="check-action">Check accruing charges</div>
-                <div class="check-hint">Log in with sbmdjordan &middot; Update &ldquo;Usage GBP&rdquo; in Notion</div>
-            </a>
-            <a href="https://console.cloud.google.com/billing" target="_blank" class="check-card">
-                <div class="check-name">Google Cloud (Oasi)</div>
-                <div class="check-action">Check remaining free credits</div>
-                <div class="check-hint">Log in with jjohnson@stayoasi &middot; &pound;218 trial expires May 7</div>
-            </a>
-            <a href="https://railway.com/account/usage" target="_blank" class="check-card">
-                <div class="check-name">Railway</div>
-                <div class="check-action">Check trial credits remaining</div>
-                <div class="check-hint">Free trial: 28 days or $4.94 &middot; Hosting Learning Lab</div>
-            </a>
-        </div>
-    </div>
 
     <!-- Project Cost Breakdown -->
     <div class="table-section">
