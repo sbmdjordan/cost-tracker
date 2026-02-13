@@ -41,7 +41,7 @@ subscriptions:
     category: "Work"
     billed_currency: "USD"
     monthly_cost_usd: 29.0
-    monthly_cost_gbp: 0
+    monthly_cost_gbp: 25.49
     billing_cycle: "Monthly"
     status: "Active"
     auto_tracked: true
@@ -57,18 +57,6 @@ subscriptions:
     billing_cycle: "Pay-as-you-go"
     status: "Active"
     auto_tracked: false  # Set to true when admin key is available
-
-  - name: "ClickUp"
-    service_type: "Subscription"
-    project: ["General"]
-    category: "Work"
-    billed_currency: "USD"
-    monthly_cost_usd: 0
-    monthly_cost_gbp: 0
-    billing_cycle: "Monthly"
-    status: "Active"
-    auto_tracked: false
-    notes: "Free tier"
 
   - name: "Google Cloud (sbmdjordan)"
     service_type: "API Credits"
@@ -123,7 +111,7 @@ subscriptions:
     category: "Work"
     billed_currency: "USD"
     monthly_cost_usd: 27.15
-    monthly_cost_gbp: 0
+    monthly_cost_gbp: 20.0
     billing_cycle: "Monthly"
     status: "Active"
     auto_tracked: false
