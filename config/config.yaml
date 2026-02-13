@@ -1,0 +1,138 @@
+app:
+  name: "Cost & Subscription Tracker"
+  version: "1.0.0"
+
+services:
+  apify:
+    enabled: true
+    # Map actor tilde-IDs to project names for cost attribution
+    actor_project_map:
+      "crawlerbros~instagram-keyword-search-scraper": "Elite Eats"
+      "apify~instagram-profile-scraper": "Elite Eats"
+      "sones~instagram-posts-scraper-lowcost": "Content Monitoring"
+      "apify~instagram-comment-scraper": "Content Monitoring"
+      "apify~instagram-scraper": "Content Monitoring"
+      # Add more as needed. Unmapped actors go to default_project.
+    default_project: "General"
+    default_category: "Work"
+
+  anthropic:
+    enabled: false  # Set to true when admin API key is available
+    default_project: "General"
+    default_category: "Work"
+
+# Subscriptions to seed on first run (won't duplicate if already exist)
+subscriptions:
+  - name: "Claude Code"
+    service_type: "Subscription"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 100.0
+    monthly_cost_gbp: 0  # Update with actual bank charge
+    billing_cycle: "Monthly"
+    status: "Active"
+    auto_tracked: false
+
+  - name: "Apify"
+    service_type: "API Credits"
+    project: ["Elite Eats", "Content Monitoring", "Competitor Monitor"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Pay-as-you-go"
+    status: "Active"
+    auto_tracked: true
+
+  - name: "Claude API"
+    service_type: "API Credits"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Pay-as-you-go"
+    status: "Active"
+    auto_tracked: false  # Set to true when admin key is available
+
+  - name: "ClickUp"
+    service_type: "Subscription"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Monthly"
+    status: "Active"
+    auto_tracked: false
+    notes: "Free tier"
+
+  - name: "Gemini API"
+    service_type: "API Credits"
+    project: ["Content Monitoring", "Competitor Monitor"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Pay-as-you-go"
+    status: "Active"
+    auto_tracked: false
+
+  - name: "Google Cloud"
+    service_type: "Subscription"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Monthly"
+    status: "Active"
+    auto_tracked: false
+
+  - name: "GitHub"
+    service_type: "Subscription"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Monthly"
+    status: "Active"
+    auto_tracked: false
+    notes: "Free tier - 2000 Actions min/month"
+
+  - name: "Perplexity"
+    service_type: "API Credits"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Pay-as-you-go"
+    status: "Active"
+    auto_tracked: false
+
+  - name: "ChatGPT / OpenAI"
+    service_type: "Subscription"
+    project: ["General"]
+    category: "Work"
+    billed_currency: "USD"
+    monthly_cost_usd: 20.0
+    monthly_cost_gbp: 0
+    billing_cycle: "Monthly"
+    status: "Active"
+    auto_tracked: false
+
+# Project-level category overrides (default is "Work")
+project_categories:
+  "Elite Eats": "Personal"
+  "Learning Lab": "Personal"
+  # Everything not listed here defaults to "Work"
+
+notion:
+  default_icon: "\U0001f4b0"
+
+logging:
+  level: "INFO"
+  file: "logs/cost_tracker.log"
