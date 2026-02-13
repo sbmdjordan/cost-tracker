@@ -105,6 +105,18 @@ subscriptions:
     status: "Active"
     auto_tracked: false
 
+  - name: "Railway"
+    service_type: "Hosting"
+    project: ["Learning Lab"]
+    category: "Personal"
+    billed_currency: "USD"
+    monthly_cost_usd: 0
+    monthly_cost_gbp: 0
+    billing_cycle: "Pay-as-you-go"
+    status: "Trial"
+    auto_tracked: false
+    notes: "Free trial: 28 days or $4.94 remaining (as of Feb 13). Hosting Learning Lab."
+
   - name: "ChatGPT / OpenAI"
     service_type: "Subscription"
     project: ["General"]

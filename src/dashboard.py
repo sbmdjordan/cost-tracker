@@ -680,6 +680,11 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
                 <div class="check-action">Check remaining free credits</div>
                 <div class="check-hint">Log in with jjohnson@stayoasi &middot; &pound;218 trial expires May 7</div>
             </a>
+            <a href="https://railway.com/account/usage" target="_blank" class="check-card">
+                <div class="check-name">Railway</div>
+                <div class="check-action">Check trial credits remaining</div>
+                <div class="check-hint">Free trial: 28 days or $4.94 &middot; Hosting Learning Lab</div>
+            </a>
         </div>
     </div>
 
