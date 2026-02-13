@@ -9,9 +9,9 @@ services:
     actor_project_map:
       "crawlerbros~instagram-keyword-search-scraper": "Elite Eats"
       "apify~instagram-profile-scraper": "Elite Eats"
-      "sones~instagram-posts-scraper-lowcost": "Content Monitoring"
-      "apify~instagram-comment-scraper": "Content Monitoring"
-      "apify~instagram-scraper": "Content Monitoring"
+      "sones~instagram-posts-scraper-lowcost": "Healthy Living Competitor Content Tracking"
+      "apify~instagram-comment-scraper": "Healthy Living Competitor Content Tracking"
+      "apify~instagram-scraper": "Healthy Living Competitor Content Tracking"
       # Add more as needed. Unmapped actors go to default_project.
     default_project: "General"
     default_category: "Work"
@@ -37,7 +37,7 @@ subscriptions:
 
   - name: "Apify"
     service_type: "API Credits"
-    project: ["Elite Eats", "Content Monitoring", "Competitor Monitor"]
+    project: ["Elite Eats", "Healthy Living Competitor Content Tracking", "Competitor Monitor"]
     category: "Work"
     billed_currency: "USD"
     monthly_cost_usd: 29.0
@@ -72,7 +72,7 @@ subscriptions:
 
   - name: "Google Cloud (Oasi)"
     service_type: "API Credits"
-    project: ["Content Monitoring", "Competitor Monitor"]
+    project: ["Healthy Living Competitor Content Tracking", "Competitor Monitor"]
     category: "Work"
     billed_currency: "GBP"
     monthly_cost_usd: 0

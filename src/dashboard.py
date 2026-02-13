@@ -24,54 +24,96 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
         usage_entries: List of usage entry dicts from Notion
         output_path: Where to write the HTML file
     """
-    # --- Calculate totals ---
+    # --- Calculate totals (avoid double-counting auto-tracked services) ---
     active_subs = [s for s in subscriptions if s["status"] == "Active"]
 
-    # Monthly subscription costs
-    total_subs_gbp = sum(s["monthly_cost_gbp"] for s in active_subs)
-    total_subs_usd = sum(s["monthly_cost_usd"] for s in active_subs)
-    work_subs_gbp = sum(s["monthly_cost_gbp"] for s in active_subs if s["category"] == "Work")
-    personal_subs_gbp = sum(s["monthly_cost_gbp"] for s in active_subs if s["category"] == "Personal")
+    # For auto-tracked services, usage entries represent actual spend.
+    # The effective cost = max(plan fee, usage) — you pay at least the plan fee.
+    # For non-auto-tracked services, the subscription cost is the cost.
+    auto_usage_by_service_gbp = {}
+    auto_usage_by_service_usd = {}
+    for u in usage_entries:
+        if u["source"] == "Auto":
+            auto_usage_by_service_gbp[u["service"]] = auto_usage_by_service_gbp.get(u["service"], 0) + u["cost_gbp"]
+            auto_usage_by_service_usd[u["service"]] = auto_usage_by_service_usd.get(u["service"], 0) + u["cost_usd"]
 
-    # Usage costs this month
-    total_usage_gbp = sum(u["cost_gbp"] for u in usage_entries)
-    total_usage_usd = sum(u["cost_usd"] for u in usage_entries)
-    work_usage_gbp = sum(u["cost_gbp"] for u in usage_entries if u["category"] == "Work")
-    personal_usage_gbp = sum(u["cost_gbp"] for u in usage_entries if u["category"] == "Personal")
+    # Effective cost per subscription: for auto-tracked, use max(plan, usage); else plan fee
+    total_gbp = 0
+    total_usd = 0
+    work_gbp = 0
+    personal_gbp = 0
+    total_usage_gbp = 0  # API usage portion only
+    total_usage_usd = 0
+    for s in active_subs:
+        if s["auto_tracked"] and s["name"] in auto_usage_by_service_gbp:
+            eff_gbp = max(s["monthly_cost_gbp"], auto_usage_by_service_gbp[s["name"]])
+            eff_usd = max(s["monthly_cost_usd"], auto_usage_by_service_usd.get(s["name"], 0))
+        else:
+            eff_gbp = s["monthly_cost_gbp"]
+            eff_usd = s["monthly_cost_usd"]
+        total_gbp += eff_gbp
+        total_usd += eff_usd
+        if s["category"] == "Work":
+            work_gbp += eff_gbp
+        elif s["category"] == "Personal":
+            personal_gbp += eff_gbp
 
-    # Combined
-    total_gbp = total_subs_gbp + total_usage_gbp
-    work_gbp = work_subs_gbp + work_usage_gbp
-    personal_gbp = personal_subs_gbp + personal_usage_gbp
+    # Manual usage entries (non-auto) are additional spend not covered by subscriptions
+    for u in usage_entries:
+        if u["source"] != "Auto":
+            total_gbp += u["cost_gbp"]
+            total_usd += u["cost_usd"]
+            total_usage_gbp += u["cost_gbp"]
+            total_usage_usd += u["cost_usd"]
+            if u["category"] == "Work":
+                work_gbp += u["cost_gbp"]
+            elif u["category"] == "Personal":
+                personal_gbp += u["cost_gbp"]
 
-    total_usd = total_subs_usd + total_usage_usd
+    # API usage = auto-tracked effective amounts + manual usage
+    for s in active_subs:
+        if s["auto_tracked"] and s["name"] in auto_usage_by_service_gbp:
+            total_usage_gbp += max(s["monthly_cost_gbp"], auto_usage_by_service_gbp[s["name"]])
+            total_usage_usd += max(s["monthly_cost_usd"], auto_usage_by_service_usd.get(s["name"], 0))
 
-    # --- Spend by project (for doughnut) ---
+    # --- Spend by project (for doughnut — no double-counting) ---
+    auto_tracked_names = {s["name"] for s in active_subs if s["auto_tracked"] and s["name"] in auto_usage_by_service_gbp}
     project_spend = {}
+    # Add usage entries (auto + manual)
     for u in usage_entries:
         for p in u["projects"]:
             project_spend[p] = project_spend.get(p, 0) + u["cost_gbp"]
+    # Add subscription costs only for non-auto-tracked services
     for s in active_subs:
-        for p in s["projects"]:
-            project_spend[p] = project_spend.get(p, 0) + (s["monthly_cost_gbp"] / max(len(s["projects"]), 1))
+        if s["name"] not in auto_tracked_names:
+            share = s["monthly_cost_gbp"] / max(len(s["projects"]), 1)
+            for p in s["projects"]:
+                project_spend[p] = project_spend.get(p, 0) + share
 
-    # --- Spend by service (for second doughnut) ---
+    # --- Spend by service (for second doughnut — no double-counting) ---
     service_spend = {}
-    for u in usage_entries:
-        service_spend[u["service"]] = service_spend.get(u["service"], 0) + u["cost_gbp"]
     for s in active_subs:
-        service_spend[s["name"]] = service_spend.get(s["name"], 0) + s["monthly_cost_gbp"]
+        if s["name"] in auto_tracked_names:
+            service_spend[s["name"]] = max(s["monthly_cost_gbp"], auto_usage_by_service_gbp[s["name"]])
+        else:
+            service_spend[s["name"]] = s["monthly_cost_gbp"]
+    # Add manual usage services not in subscriptions
+    for u in usage_entries:
+        if u["source"] != "Auto" and u["service"] not in service_spend:
+            service_spend[u["service"]] = service_spend.get(u["service"], 0) + u["cost_gbp"]
 
     # --- Per-project breakdown (project → {service: cost}) ---
     project_service_breakdown = {}
+    # Usage entries give per-project detail for auto-tracked services
     for u in usage_entries:
         for p in u["projects"]:
             if p not in project_service_breakdown:
                 project_service_breakdown[p] = {}
             svc = u["service"]
             project_service_breakdown[p][svc] = project_service_breakdown[p].get(svc, 0) + u["cost_gbp"]
+    # Non-auto-tracked subscriptions split evenly across projects
     for s in active_subs:
-        if s["monthly_cost_gbp"] > 0:
+        if s["name"] not in auto_tracked_names and s["monthly_cost_gbp"] > 0:
             share = s["monthly_cost_gbp"] / max(len(s["projects"]), 1)
             for p in s["projects"]:
                 if p not in project_service_breakdown:
