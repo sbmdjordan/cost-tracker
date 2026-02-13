@@ -62,6 +62,22 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
     for s in active_subs:
         service_spend[s["name"]] = service_spend.get(s["name"], 0) + s["monthly_cost_gbp"]
 
+    # --- Per-project breakdown (project → {service: cost}) ---
+    project_service_breakdown = {}
+    for u in usage_entries:
+        for p in u["projects"]:
+            if p not in project_service_breakdown:
+                project_service_breakdown[p] = {}
+            svc = u["service"]
+            project_service_breakdown[p][svc] = project_service_breakdown[p].get(svc, 0) + u["cost_gbp"]
+    for s in active_subs:
+        if s["monthly_cost_gbp"] > 0:
+            share = s["monthly_cost_gbp"] / max(len(s["projects"]), 1)
+            for p in s["projects"]:
+                if p not in project_service_breakdown:
+                    project_service_breakdown[p] = {}
+                project_service_breakdown[p][s["name"]] = project_service_breakdown[p].get(s["name"], 0) + share
+
     # --- Credit usage (for progress bars) ---
     credit_services = [
         s for s in active_subs
@@ -123,6 +139,43 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
 
     if not progress_bars:
         progress_bars = '<p class="muted">No services with credit limits configured yet. Set "Credits Included" on a subscription in Notion.</p>'
+
+    # Build project→category mapping from actual data
+    project_category_map = {}
+    for u in usage_entries:
+        for p in u["projects"]:
+            if p not in project_category_map and u["category"]:
+                project_category_map[p] = u["category"]
+    for s in active_subs:
+        for p in s["projects"]:
+            if p not in project_category_map and s["category"]:
+                project_category_map[p] = s["category"]
+
+    # Project breakdown rows
+    project_breakdown_html = ""
+    for proj_name in sorted(project_service_breakdown.keys(), key=lambda p: sum(project_service_breakdown[p].values()), reverse=True):
+        services = project_service_breakdown[proj_name]
+        proj_total = sum(services.values())
+        if proj_total <= 0:
+            continue
+        proj_cat = project_category_map.get(proj_name, "Work")
+        cat_class = "personal" if proj_cat == "Personal" else "work"
+        breakdown_parts = []
+        for svc_name in sorted(services.keys(), key=lambda k: services[k], reverse=True):
+            svc_cost = services[svc_name]
+            if svc_cost > 0:
+                breakdown_parts.append(f"{svc_name}: £{svc_cost:.2f}")
+        breakdown_str = " &middot; ".join(breakdown_parts) if breakdown_parts else "-"
+        project_breakdown_html += f"""
+            <tr>
+                <td><strong>{proj_name}</strong></td>
+                <td><span class="badge {cat_class}">{proj_cat}</span></td>
+                <td class="number" style="font-size:18px;font-weight:700;">£{proj_total:.2f}</td>
+                <td class="projects" style="font-size:13px;">{breakdown_str}</td>
+            </tr>"""
+
+    if not project_breakdown_html:
+        project_breakdown_html = '<tr><td colspan="4" class="muted">No project costs recorded yet.</td></tr>'
 
     # Recent usage rows
     usage_rows = ""
@@ -395,6 +448,24 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
     <div class="progress-section">
         <h2>Credit Usage</h2>
         {progress_bars}
+    </div>
+
+    <!-- Project Cost Breakdown -->
+    <div class="table-section">
+        <h2>Cost by Project</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Category</th>
+                    <th>Total</th>
+                    <th>Breakdown (by service)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {project_breakdown_html}
+            </tbody>
+        </table>
     </div>
 
     <!-- Subscriptions Table -->
