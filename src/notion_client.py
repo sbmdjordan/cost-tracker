@@ -85,17 +85,18 @@ class NotionClient:
     def update_subscription_usage(
         self,
         page_id: str,
-        credits_used: float,
         usage_usd: float,
         usage_gbp: float = 0.0,
+        credits_remaining: float = None,
     ) -> Optional[dict]:
-        """Update Credits Used, Usage USD, and Usage GBP on a subscription row."""
+        """Update Usage USD, Usage GBP, and optionally Credits Remaining on a subscription row."""
         try:
             properties = {
-                "Credits Used": {"number": round(credits_used, 4)},
                 "Usage USD": {"number": round(usage_usd, 4)},
                 "Usage GBP": {"number": round(usage_gbp, 4)},
             }
+            if credits_remaining is not None:
+                properties["Credits Remaining"] = {"number": round(credits_remaining, 4)}
             response = self._rate_limited_update(page_id, properties=properties)
             self.logger.info(f"Updated subscription usage: ${usage_usd:.2f} / \u00a3{usage_gbp:.2f}")
             return response
@@ -189,7 +190,7 @@ class NotionClient:
             "next_renewal": props.get("Next Renewal", {}).get("date", {}).get("start") if props.get("Next Renewal", {}).get("date") else None,
             "status": props.get("Status", {}).get("select", {}).get("name", ""),
             "credits_included": props.get("Credits Included", {}).get("number") or 0,
-            "credits_used": props.get("Credits Used", {}).get("number") or 0,
+            "credits_remaining": props.get("Credits Remaining", {}).get("number") or 0,
             "usage_usd": props.get("Usage USD", {}).get("number") or 0,
             "usage_gbp": props.get("Usage GBP", {}).get("number") or 0,
             "auto_tracked": props.get("Auto Tracked", {}).get("checkbox", False),

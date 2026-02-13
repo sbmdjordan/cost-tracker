@@ -23,7 +23,7 @@ class SubscriptionEntry:
         next_renewal: Optional[date] = None,
         status: str = "Active",
         credits_included: float = 0,
-        credits_used: float = 0,
+        credits_remaining: float = 0,
         usage_usd: float = 0.0,
         usage_gbp: float = 0.0,
         auto_tracked: bool = False,
@@ -40,7 +40,7 @@ class SubscriptionEntry:
         self.next_renewal = next_renewal
         self.status = status
         self.credits_included = credits_included
-        self.credits_used = credits_used
+        self.credits_remaining = credits_remaining
         self.usage_usd = usage_usd
         self.usage_gbp = usage_gbp
         self.auto_tracked = auto_tracked
@@ -59,7 +59,7 @@ class SubscriptionEntry:
             "Billing Cycle": {"select": {"name": self.billing_cycle}},
             "Status": {"select": {"name": self.status}},
             "Credits Included": {"number": self.credits_included},
-            "Credits Used": {"number": self.credits_used},
+            "Credits Remaining": {"number": self.credits_remaining},
             "Usage USD": {"number": self.usage_usd},
             "Usage GBP": {"number": self.usage_gbp},
             "Auto Tracked": {"checkbox": self.auto_tracked},

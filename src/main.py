@@ -174,11 +174,14 @@ class CostTrackerApp:
             # Update Apify subscription row
             sub_page = self.notion.find_subscription_by_name("Apify")
             if sub_page:
+                # For Apify, credits_remaining = plan - actual usage from API
+                apify_plan = 29.0  # STARTER plan $29/mo
+                remaining = max(apify_plan - credits_used, 0)
                 self.notion.update_subscription_usage(
                     page_id=sub_page["id"],
-                    credits_used=credits_used,
                     usage_usd=total_usd,
                     usage_gbp=total_gbp,
+                    credits_remaining=remaining,
                 )
                 self.stats["subscriptions_updated"] += 1
                 self.logger.info(f"Updated Apify: ${total_usd:.2f} / \u00a3{total_gbp:.2f}")
@@ -210,7 +213,6 @@ class CostTrackerApp:
             if sub_page:
                 self.notion.update_subscription_usage(
                     page_id=sub_page["id"],
-                    credits_used=0,
                     usage_usd=total_cost,
                     usage_gbp=total_gbp,
                 )

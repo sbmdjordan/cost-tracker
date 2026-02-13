@@ -311,7 +311,7 @@
 </head>
 <body>
     <h1>Cost Tracker</h1>
-    <p class="subtitle">Updated 13 Feb 2026 at 21:55 &middot; February 2026</p>
+    <p class="subtitle">Updated 13 Feb 2026 at 22:19 &middot; February 2026</p>
 
     <!-- Summary Cards -->
     <div class="cards">
@@ -378,7 +378,7 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">Perplexity</span>
-                    <span class="progress-value">2.1 / 8.4 (24.9%)</span>
+                    <span class="progress-value">$6.31 remaining of $8.40 (25% used)</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill green" style="width: 24.9%"></div>
@@ -387,7 +387,7 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">Google Cloud (Oasi)</span>
-                    <span class="progress-value">2.0 / 218.0 (0.9%)</span>
+                    <span class="progress-value">£216.00 remaining of £218.00 (1% used)</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill green" style="width: 0.9%"></div>
@@ -396,16 +396,7 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">Apify</span>
-                    <span class="progress-value">29.0 / 29.0 (100.0%)</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill red" style="width: 100.0%"></div>
-                </div>
-            </div>
-            <div class="progress-item">
-                <div class="progress-header">
-                    <span class="progress-label">Google Cloud (sbmdjordan)</span>
-                    <span class="progress-value">218.0 / 218.0 (100.0%)</span>
+                    <span class="progress-value">$0.00 remaining of $29.00 (100% used)</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill red" style="width: 100.0%"></div>
@@ -414,10 +405,19 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">Claude API</span>
-                    <span class="progress-value">8.1 / 22.0 (37.0%)</span>
+                    <span class="progress-value">$13.86 remaining of $21.99 (37% used)</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill green" style="width: 37.0%"></div>
+                </div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-header">
+                    <span class="progress-label">Railway</span>
+                    <span class="progress-value">$4.94 remaining</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill green" style="width: 100%"></div>
                 </div>
             </div>
     </div>
@@ -430,12 +430,12 @@
             <a href="https://console.anthropic.com/settings/billing" target="_blank" class="check-card">
                 <div class="check-name">Claude API</div>
                 <div class="check-action">Check remaining credit balance</div>
-                <div class="check-hint">Update &ldquo;Credits Used&rdquo; on the Claude API row in Notion</div>
+                <div class="check-hint">Update &ldquo;Credits Remaining&rdquo; on the Claude API row in Notion</div>
             </a>
             <a href="https://www.perplexity.ai/settings/api" target="_blank" class="check-card">
                 <div class="check-name">Perplexity</div>
                 <div class="check-action">Check remaining credit balance</div>
-                <div class="check-hint">Update &ldquo;Credits Used&rdquo; on the Perplexity row in Notion</div>
+                <div class="check-hint">Update &ldquo;Credits Remaining&rdquo; on the Perplexity row in Notion</div>
             </a>
             <a href="https://console.cloud.google.com/billing" target="_blank" class="check-card">
                 <div class="check-name">Google Cloud (sbmdjordan)</div>
@@ -478,8 +478,8 @@
             <tr>
                 <td><strong>Healthy Living Competitor Content Tracking</strong></td>
                 <td><span class="badge work">Work</span></td>
-                <td class="number" style="font-size:18px;font-weight:700;">£21.10</td>
-                <td class="projects" style="font-size:13px;">Apify: £21.10</td>
+                <td class="number" style="font-size:18px;font-weight:700;">£21.13</td>
+                <td class="projects" style="font-size:13px;">Apify: £21.13</td>
             </tr>
             <tr>
                 <td><strong>Elite Eats</strong></td>
@@ -524,7 +524,7 @@
                 <td><span class="badge work">Work</span></td>
                 <td>API Credits</td>
                 <td class="number">£25.49</td>
-                <td class="number">£21.28</td>
+                <td class="number">£21.31</td>
                 <td>Monthly</td>
                 <td>-</td>
                 <td class="projects">Elite Eats, Healthy Living Competitor Content Tracking, Competitor Monitor</td>
@@ -589,6 +589,16 @@
                 <td>-</td>
                 <td class="projects">General</td>
             </tr>
+            <tr>
+                <td>Railway</td>
+                <td><span class="badge personal">Personal</span></td>
+                <td>Hosting</td>
+                <td class="number">$0.00</td>
+                <td class="number"></td>
+                <td>Pay-as-you-go</td>
+                <td>-</td>
+                <td class="projects">Learning Lab</td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -633,7 +643,7 @@
                 <td>2026-02-13</td>
                 <td>Apify</td>
                 <td class="projects">Healthy Living Competitor Content Tracking</td>
-                <td class="number">£21.10</td>
+                <td class="number">£21.13</td>
                 <td><span class="badge auto">Auto</span></td>
             </tr>
             </tbody>
@@ -666,10 +676,10 @@
         new Chart(document.getElementById('projectChart'), {
             type: 'doughnut',
             data: {
-                labels: ["General", "Elite Eats", "Healthy Living Competitor Content Tracking"],
+                labels: ["General", "Elite Eats", "Healthy Living Competitor Content Tracking", "Learning Lab"],
                 datasets: [{
-                    data: [122.91, 0.17, 21.1],
-                    backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899"],
+                    data: [122.91, 0.17, 21.13, 0.0],
+                    backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e"],
                     borderWidth: 0,
                     hoverOffset: 8,
                 }]
@@ -680,10 +690,10 @@
         new Chart(document.getElementById('serviceChart'), {
             type: 'doughnut',
             data: {
-                labels: ["Claude Code", "Perplexity", "Google Cloud (Oasi)", "ChatGPT / OpenAI", "Apify", "GitHub", "Google Cloud (sbmdjordan)", "Claude API"],
+                labels: ["Claude Code", "Perplexity", "Google Cloud (Oasi)", "ChatGPT / OpenAI", "Apify", "GitHub", "Google Cloud (sbmdjordan)", "Claude API", "Railway"],
                 datasets: [{
-                    data: [80.62, 0, 0, 20, 25.49, 0, 0, 0],
-                    backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f97316", "#eab308", "#22c55e", "#14b8a6"],
+                    data: [80.62, 0, 0, 20, 25.49, 0, 0, 0, 0],
+                    backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f97316", "#eab308", "#22c55e", "#14b8a6", "#06b6d4"],
                     borderWidth: 0,
                     hoverOffset: 8,
                 }]

@@ -25,7 +25,7 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
         output_path: Where to write the HTML file
     """
     # --- Calculate totals (avoid double-counting auto-tracked services) ---
-    active_subs = [s for s in subscriptions if s["status"] == "Active"]
+    active_subs = [s for s in subscriptions if s["status"] in ("Active", "Trial")]
 
     # For auto-tracked services, usage entries represent actual spend.
     # The effective cost = max(plan fee, usage) — you pay at least the plan fee.
@@ -121,9 +121,10 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
                 project_service_breakdown[p][s["name"]] = project_service_breakdown[p].get(s["name"], 0) + share
 
     # --- Credit usage (for progress bars) ---
+    # Show services that have credits_included OR credits_remaining set
     credit_services = [
         s for s in active_subs
-        if s["credits_included"] > 0
+        if s["credits_included"] > 0 or s["credits_remaining"] > 0
     ]
 
     # --- Build data for template ---
@@ -203,26 +204,46 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
                 <td class="projects">{projects_str}</td>
             </tr>"""
 
-    # Credit progress bars
+    # Credit progress bars — calculate used = included - remaining
     progress_bars = ""
     for s in credit_services:
-        used = s["credits_used"]
+        remaining = s["credits_remaining"]
         included = s["credits_included"]
-        pct = min(round((used / included) * 100, 1), 100) if included > 0 else 0
-        color = "green" if pct < 60 else ("orange" if pct < 85 else "red")
-        progress_bars += f"""
+        # If credits_included is set, used = included - remaining
+        # If only credits_remaining is set (no included), show remaining as absolute value
+        if included > 0:
+            used = max(included - remaining, 0)
+            pct = min(round((used / included) * 100, 1), 100)
+            color = "green" if pct < 60 else ("orange" if pct < 85 else "red")
+            unit = s.get("billed_currency", "")
+            symbol = "£" if unit == "GBP" else "$"
+            progress_bars += f"""
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">{s['name']}</span>
-                    <span class="progress-value">{used:,.1f} / {included:,.1f} ({pct}%)</span>
+                    <span class="progress-value">{symbol}{remaining:,.2f} remaining of {symbol}{included:,.2f} ({pct:.0f}% used)</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill {color}" style="width: {pct}%"></div>
                 </div>
             </div>"""
+        else:
+            # No credits_included — just show remaining balance
+            unit = s.get("billed_currency", "")
+            symbol = "£" if unit == "GBP" else "$"
+            progress_bars += f"""
+            <div class="progress-item">
+                <div class="progress-header">
+                    <span class="progress-label">{s['name']}</span>
+                    <span class="progress-value">{symbol}{remaining:,.2f} remaining</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill green" style="width: 100%"></div>
+                </div>
+            </div>"""
 
     if not progress_bars:
-        progress_bars = '<p class="muted">No services with credit limits configured yet. Set "Credits Included" on a subscription in Notion.</p>'
+        progress_bars = '<p class="muted">No services with credit balances configured yet. Set "Credits Remaining" on a subscription in Notion.</p>'
 
     # Build project→category mapping from actual data
     project_category_map = {}
@@ -663,12 +684,12 @@ def generate_dashboard(subscriptions: list, usage_entries: list, output_path: st
             <a href="https://console.anthropic.com/settings/billing" target="_blank" class="check-card">
                 <div class="check-name">Claude API</div>
                 <div class="check-action">Check remaining credit balance</div>
-                <div class="check-hint">Update &ldquo;Credits Used&rdquo; on the Claude API row in Notion</div>
+                <div class="check-hint">Update &ldquo;Credits Remaining&rdquo; on the Claude API row in Notion</div>
             </a>
             <a href="https://www.perplexity.ai/settings/api" target="_blank" class="check-card">
                 <div class="check-name">Perplexity</div>
                 <div class="check-action">Check remaining credit balance</div>
-                <div class="check-hint">Update &ldquo;Credits Used&rdquo; on the Perplexity row in Notion</div>
+                <div class="check-hint">Update &ldquo;Credits Remaining&rdquo; on the Perplexity row in Notion</div>
             </a>
             <a href="https://console.cloud.google.com/billing" target="_blank" class="check-card">
                 <div class="check-name">Google Cloud (sbmdjordan)</div>
