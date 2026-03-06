@@ -258,18 +258,18 @@
 </head>
 <body>
     <h1>Cost Tracker</h1>
-    <p class="subtitle">Updated 05 Mar 2026 at 10:07 &middot; March 2026</p>
+    <p class="subtitle">Updated 06 Mar 2026 at 09:58 &middot; March 2026</p>
 
     <!-- Summary Cards -->
     <div class="cards">
         <div class="card">
             <div class="card-label">Total Monthly</div>
-            <div class="card-value total">&pound;225.23</div>
-            <div class="card-sub">$290.26 USD</div>
+            <div class="card-value total">&pound;226.19</div>
+            <div class="card-sub">$291.54 USD</div>
         </div>
         <div class="card">
             <div class="card-label">Work</div>
-            <div class="card-value work">&pound;217.56</div>
+            <div class="card-value work">&pound;218.52</div>
         </div>
         <div class="card">
             <div class="card-label">Personal</div>
@@ -277,8 +277,8 @@
         </div>
         <div class="card">
             <div class="card-label">API Usage This Month</div>
-            <div class="card-value total">&pound;116.94</div>
-            <div class="card-sub">$153.60 USD</div>
+            <div class="card-value total">&pound;117.90</div>
+            <div class="card-sub">$154.88 USD</div>
         </div>
     </div>
 
@@ -291,13 +291,13 @@
                     <div class="bill-name">Claude Code</div>
                     <div class="bill-cost">&pound;80.62</div>
                     <div class="bill-date">05 Mar</div>
-                    <div class="bill-countdown">Due today</div>
+                    <div class="bill-countdown">Overdue</div>
                 </div>
-                <div class="bill-card urgent">
+                <div class="bill-card overdue">
                     <div class="bill-name">ChatGPT / OpenAI</div>
                     <div class="bill-cost">&pound;20.00</div>
                     <div class="bill-date">06 Mar</div>
-                    <div class="bill-countdown">Due tomorrow</div>
+                    <div class="bill-countdown">Due today</div>
                 </div>
         </div>
     </div>
@@ -387,8 +387,8 @@
             <tr>
                 <td><strong>General</strong></td>
                 <td><span class="badge work">Work</span></td>
-                <td class="number" style="font-size:18px;font-weight:700;">£148.92</td>
-                <td class="projects" style="font-size:13px;">Claude Code: £80.62 &middot; Apify: £40.63 &middot; ChatGPT / OpenAI: £20.00 &middot; Google Cloud (sbmdjordan): £7.67</td>
+                <td class="number" style="font-size:18px;font-weight:700;">£149.87</td>
+                <td class="projects" style="font-size:13px;">Claude Code: £80.62 &middot; Apify: £41.58 &middot; ChatGPT / OpenAI: £20.00 &middot; Google Cloud (sbmdjordan): £7.67</td>
             </tr>
             <tr>
                 <td><strong>Healthy Living Competitor Content Tracking</strong></td>
@@ -399,8 +399,8 @@
             <tr>
                 <td><strong>Elite Eats</strong></td>
                 <td><span class="badge personal">Personal</span></td>
-                <td class="number" style="font-size:18px;font-weight:700;">£0.97</td>
-                <td class="projects" style="font-size:13px;">Apify: £0.97</td>
+                <td class="number" style="font-size:18px;font-weight:700;">£0.98</td>
+                <td class="projects" style="font-size:13px;">Apify: £0.98</td>
             </tr>
             </tbody>
         </table>
@@ -439,7 +439,7 @@
                 <td><span class="badge work">Work</span></td>
                 <td>API Credits</td>
                 <td class="number">£25.49</td>
-                <td class="number">£37.71</td>
+                <td class="number">£37.77</td>
                 <td>Monthly</td>
                 <td>-</td>
                 <td class="projects">Elite Eats, Healthy Living Competitor Content Tracking, Competitor Monitor</td>
@@ -533,6 +533,20 @@
             </thead>
             <tbody>
                 
+            <tr>
+                <td>2026-03-06</td>
+                <td>Apify</td>
+                <td class="projects">Elite Eats</td>
+                <td class="number">£0.01</td>
+                <td><span class="badge auto">Auto</span></td>
+            </tr>
+            <tr>
+                <td>2026-03-06</td>
+                <td>Apify</td>
+                <td class="projects">General</td>
+                <td class="number">£0.95</td>
+                <td><span class="badge auto">Auto</span></td>
+            </tr>
             <tr>
                 <td>2026-03-05</td>
                 <td>Apify</td>
@@ -656,7 +670,7 @@
             data: {
                 labels: ["Elite Eats", "General", "Healthy Living Competitor Content Tracking", "Learning Lab"],
                 datasets: [{
-                    data: [0.97, 148.92, 75.35, 0.0],
+                    data: [0.98, 149.87, 75.35, 0.0],
                     backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e"],
                     borderWidth: 0,
                     hoverOffset: 8,
@@ -670,7 +684,7 @@
             data: {
                 labels: ["Claude Code", "Perplexity", "Google Cloud (Oasi)", "ChatGPT / OpenAI", "Apify", "GitHub", "Google Cloud (sbmdjordan)", "Claude API", "Railway"],
                 datasets: [{
-                    data: [80.62, 0, 0, 20, 116.94, 0, 7.67, 0, 0],
+                    data: [80.62, 0, 0, 20, 117.9, 0, 7.67, 0, 0],
                     backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f97316", "#eab308", "#22c55e", "#14b8a6", "#06b6d4"],
                     borderWidth: 0,
                     hoverOffset: 8,
