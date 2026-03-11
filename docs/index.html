@@ -258,7 +258,7 @@
 </head>
 <body>
     <h1>Cost Tracker</h1>
-    <p class="subtitle">Updated 10 Mar 2026 at 10:05 &middot; March 2026</p>
+    <p class="subtitle">Updated 11 Mar 2026 at 10:07 &middot; March 2026</p>
 
     <!-- Summary Cards -->
     <div class="cards">
@@ -343,10 +343,10 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">Apify</span>
-                    <span class="progress-value">$0.00 remaining of $29.00 (100% used)</span>
+                    <span class="progress-value">$29.00 remaining of $29.00 (0% used)</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill red" style="width: 100.0%"></div>
+                    <div class="progress-fill green" style="width: 0.0%"></div>
                 </div>
             </div>
             <div class="progress-item">
@@ -439,7 +439,7 @@
                 <td><span class="badge work">Work</span></td>
                 <td>API Credits</td>
                 <td class="number">£25.49</td>
-                <td class="number">£37.79</td>
+                <td class="number">£0.00</td>
                 <td>Monthly</td>
                 <td>-</td>
                 <td class="projects">Elite Eats, Healthy Living Competitor Content Tracking, Competitor Monitor</td>
@@ -533,6 +533,13 @@
             </thead>
             <tbody>
                 
+            <tr>
+                <td>2026-03-11</td>
+                <td>Apify</td>
+                <td class="projects">General</td>
+                <td class="number">£0.00</td>
+                <td><span class="badge auto">Auto</span></td>
+            </tr>
             <tr>
                 <td>2026-03-10</td>
                 <td>Apify</td>
@@ -666,13 +673,6 @@
                 <td class="number">£0.31</td>
                 <td><span class="badge auto">Auto</span></td>
             </tr>
-            <tr>
-                <td>2026-03-02</td>
-                <td>Apify</td>
-                <td class="projects">General</td>
-                <td class="number">£12.58</td>
-                <td><span class="badge auto">Auto</span></td>
-            </tr>
             </tbody>
         </table>
     </div>
@@ -703,9 +703,9 @@
         new Chart(document.getElementById('projectChart'), {
             type: 'doughnut',
             data: {
-                labels: ["Elite Eats", "General", "Healthy Living Competitor Content Tracking", "Learning Lab"],
+                labels: ["General", "Elite Eats", "Healthy Living Competitor Content Tracking", "Learning Lab"],
                 datasets: [{
-                    data: [1.01, 153.68, 75.35, 0.0],
+                    data: [153.68, 1.01, 75.35, 0.0],
                     backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e"],
                     borderWidth: 0,
                     hoverOffset: 8,
