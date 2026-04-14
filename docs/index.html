@@ -258,7 +258,7 @@
 </head>
 <body>
     <h1>Cost Tracker</h1>
-    <p class="subtitle">Updated 13 Apr 2026 at 09:50 &middot; April 2026</p>
+    <p class="subtitle">Updated 14 Apr 2026 at 09:12 &middot; April 2026</p>
 
     <!-- Summary Cards -->
     <div class="cards">
@@ -324,11 +324,11 @@
         
             <div class="progress-item">
                 <div class="progress-header">
-                    <span class="progress-label">Perplexity</span>
-                    <span class="progress-value">$6.31 remaining of $8.40 (25% used)</span>
+                    <span class="progress-label">Railway</span>
+                    <span class="progress-value">$4.94 remaining</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill green" style="width: 24.9%"></div>
+                    <div class="progress-fill green" style="width: 100%"></div>
                 </div>
             </div>
             <div class="progress-item">
@@ -342,11 +342,11 @@
             </div>
             <div class="progress-item">
                 <div class="progress-header">
-                    <span class="progress-label">Apify</span>
-                    <span class="progress-value">$29.00 remaining of $29.00 (0% used)</span>
+                    <span class="progress-label">Perplexity</span>
+                    <span class="progress-value">$6.31 remaining of $8.40 (25% used)</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill green" style="width: 0.0%"></div>
+                    <div class="progress-fill green" style="width: 24.9%"></div>
                 </div>
             </div>
             <div class="progress-item">
@@ -360,11 +360,11 @@
             </div>
             <div class="progress-item">
                 <div class="progress-header">
-                    <span class="progress-label">Railway</span>
-                    <span class="progress-value">$4.94 remaining</span>
+                    <span class="progress-label">Apify</span>
+                    <span class="progress-value">$29.00 remaining of $29.00 (0% used)</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill green" style="width: 100%"></div>
+                    <div class="progress-fill green" style="width: 0.0%"></div>
                 </div>
             </div>
     </div>
@@ -457,10 +457,20 @@
                 <td><span class="badge work">Work</span></td>
                 <td>API Credits</td>
                 <td class="number">$0.00</td>
-                <td class="number">$2.09</td>
+                <td class="number"></td>
                 <td>Pay-as-you-go</td>
                 <td>-</td>
                 <td class="projects">General</td>
+            </tr>
+            <tr>
+                <td>Railway</td>
+                <td><span class="badge personal">Personal</span></td>
+                <td>Hosting</td>
+                <td class="number">$0.00</td>
+                <td class="number"></td>
+                <td>Pay-as-you-go</td>
+                <td>-</td>
+                <td class="projects">Learning Lab</td>
             </tr>
             <tr>
                 <td>Google Cloud (Oasi)</td>
@@ -470,6 +480,16 @@
                 <td class="number"></td>
                 <td>Monthly</td>
                 <td>2026-05-07</td>
+                <td class="projects">General</td>
+            </tr>
+            <tr>
+                <td>Perplexity</td>
+                <td><span class="badge work">Work</span></td>
+                <td>API Credits</td>
+                <td class="number">$0.00</td>
+                <td class="number">$2.09</td>
+                <td>Pay-as-you-go</td>
+                <td>-</td>
                 <td class="projects">General</td>
             </tr>
             <tr>
@@ -488,26 +508,6 @@
                 <td>API Credits</td>
                 <td class="number">$0.00</td>
                 <td class="number">$8.13</td>
-                <td>Pay-as-you-go</td>
-                <td>-</td>
-                <td class="projects">General</td>
-            </tr>
-            <tr>
-                <td>Railway</td>
-                <td><span class="badge personal">Personal</span></td>
-                <td>Hosting</td>
-                <td class="number">$0.00</td>
-                <td class="number"></td>
-                <td>Pay-as-you-go</td>
-                <td>-</td>
-                <td class="projects">Learning Lab</td>
-            </tr>
-            <tr>
-                <td>Perplexity</td>
-                <td><span class="badge work">Work</span></td>
-                <td>API Credits</td>
-                <td class="number">$0.00</td>
-                <td class="number"></td>
                 <td>Pay-as-you-go</td>
                 <td>-</td>
                 <td class="projects">General</td>
@@ -531,6 +531,13 @@
             </thead>
             <tbody>
                 
+            <tr>
+                <td>2026-04-14</td>
+                <td>Apify</td>
+                <td class="projects">General</td>
+                <td class="number">£0.00</td>
+                <td><span class="badge auto">Auto</span></td>
+            </tr>
             <tr>
                 <td>2026-04-13</td>
                 <td>Apify</td>
@@ -666,9 +673,9 @@
         new Chart(document.getElementById('serviceChart'), {
             type: 'doughnut',
             data: {
-                labels: ["Claude Code", "Perplexity", "Google Cloud (Oasi)", "ChatGPT / OpenAI", "Apify", "GitHub", "Google Cloud (sbmdjordan)", "Claude API", "Railway"],
+                labels: ["Perplexity", "Railway", "Google Cloud (Oasi)", "Google Cloud (sbmdjordan)", "ChatGPT / OpenAI", "GitHub", "Claude API", "Apify", "Claude Code"],
                 datasets: [{
-                    data: [80.62, 0, 0, 20, 25.49, 0, 7.67, 0, 0],
+                    data: [0, 0, 0, 7.67, 20, 0, 0, 25.49, 80.62],
                     backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f97316", "#eab308", "#22c55e", "#14b8a6", "#06b6d4"],
                     borderWidth: 0,
                     hoverOffset: 8,
