@@ -258,7 +258,7 @@
 </head>
 <body>
     <h1>Cost Tracker</h1>
-    <p class="subtitle">Updated 18 Aug 2026 at 08:29 &middot; August 2026</p>
+    <p class="subtitle">Updated 19 Aug 2026 at 08:30 &middot; August 2026</p>
 
     <!-- Summary Cards -->
     <div class="cards">
@@ -361,10 +361,10 @@
             <div class="progress-item">
                 <div class="progress-header">
                     <span class="progress-label">Apify</span>
-                    <span class="progress-value">$29.00 remaining of $29.00 (0% used)</span>
+                    <span class="progress-value">$24.15 remaining of $29.00 (17% used)</span>
                 </div>
                 <div class="progress-bar">
-                    <div class="progress-fill green" style="width: 0.0%"></div>
+                    <div class="progress-fill green" style="width: 16.7%"></div>
                 </div>
             </div>
     </div>
@@ -387,8 +387,14 @@
             <tr>
                 <td><strong>General</strong></td>
                 <td><span class="badge work">Work</span></td>
-                <td class="number" style="font-size:18px;font-weight:700;">£108.29</td>
-                <td class="projects" style="font-size:13px;">Claude Code: £80.62 &middot; ChatGPT / OpenAI: £20.00 &middot; Google Cloud (sbmdjordan): £7.67</td>
+                <td class="number" style="font-size:18px;font-weight:700;">£109.08</td>
+                <td class="projects" style="font-size:13px;">Claude Code: £80.62 &middot; ChatGPT / OpenAI: £20.00 &middot; Google Cloud (sbmdjordan): £7.67 &middot; Apify: £0.79</td>
+            </tr>
+            <tr>
+                <td><strong>Elite Eats</strong></td>
+                <td><span class="badge personal">Personal</span></td>
+                <td class="number" style="font-size:18px;font-weight:700;">£2.79</td>
+                <td class="projects" style="font-size:13px;">Apify: £2.79</td>
             </tr>
             </tbody>
         </table>
@@ -427,7 +433,7 @@
                 <td><span class="badge work">Work</span></td>
                 <td>API Credits</td>
                 <td class="number">£25.49</td>
-                <td class="number"></td>
+                <td class="number">£3.59</td>
                 <td>Monthly</td>
                 <td>-</td>
                 <td class="projects">Elite Eats, Healthy Living Competitor Content Tracking, Competitor Monitor</td>
@@ -531,6 +537,20 @@
             </thead>
             <tbody>
                 
+            <tr>
+                <td>2026-08-19</td>
+                <td>Apify</td>
+                <td class="projects">General</td>
+                <td class="number">£0.79</td>
+                <td><span class="badge auto">Auto</span></td>
+            </tr>
+            <tr>
+                <td>2026-08-19</td>
+                <td>Apify</td>
+                <td class="projects">Elite Eats</td>
+                <td class="number">£2.79</td>
+                <td><span class="badge auto">Auto</span></td>
+            </tr>
             <tr>
                 <td>2026-08-18</td>
                 <td>Apify</td>
@@ -680,10 +700,10 @@
         new Chart(document.getElementById('projectChart'), {
             type: 'doughnut',
             data: {
-                labels: ["General", "Learning Lab"],
+                labels: ["General", "Elite Eats", "Learning Lab"],
                 datasets: [{
-                    data: [108.29, 0.0],
-                    backgroundColor: ["#6366f1", "#8b5cf6"],
+                    data: [109.08, 2.79, 0.0],
+                    backgroundColor: ["#6366f1", "#8b5cf6", "#ec4899"],
                     borderWidth: 0,
                     hoverOffset: 8,
                 }]
